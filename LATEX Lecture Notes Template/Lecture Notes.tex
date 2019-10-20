@@ -1,0 +1,249 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{tikz-cd}
+\usepackage{mathrsfs}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{enumitem}
+\usepackage{yfonts}
+
+\title{Toric varieties I}
+
+\author{Yang Li}
+
+\date{\today}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{ex}[thm]{Exercise}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{claim}[thm]{Claim}
+\newtheorem{rmk}[thm]{Remark}
+
+\newcommand{\ie}{\emph{i.e.} }
+\newcommand{\cf}{\emph{cf.} }
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\dirac}{\slashed{\partial}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\LieT}{\mathfrak{t}}
+\newcommand{\T}{\mathbb{T}}
+
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+		The lecture notes are based on Tom Coates' lecture on toric varieties. A few references:
+		
+		\begin{itemize}
+			\item M. Audin, Toric actions on symplectic manifolds
+			\item W. Fulton, Toric varieties
+			\item Cox-Schenck-Little, Toric varieties
+		\end{itemize}
+	\end{abstract}
+	
+	\section{Introduction}
+	
+	
+	Aim of the lecture: Sketch several viewpoints on toric manifolds.
+	
+	\begin{itemize}
+		\item Symplectic viewpoint: X compact symplectic 2n-D manifold, with a torus action of $\T$ on X, where the torus is the real n-D torus and the action is Hamiltonian and effective.
+		\item Algebraic viewpoint: smooth projective variety, with a dense open subset $T_{\C} \in X$, such that $T_{\C}$ acts on X extending the left action on the open dense copy of $T_{\C}$.
+		\item Symplectic viewpoint': The symplectic quotient of $\C^{n}$ by the $(S^{1})^{k}$ action, where $(S^{1})^{k}$ is a subgroup of $(S^{1})^{n}$ and acts by restricting the usual linear action of $(S^{1})^{n}$ on $\C^{n}$.
+		\item algebraic viewpoint': the GIT quotient of $\C^{n}$ by the $(\C^{*})^{k}$ action, where $(\C^{*})^{k}$ acts by restricting the usual linear action of $(\C^{*})^{n}$ on $\C^{n}$.
+		
+	\end{itemize}
+	
+	
+	The subject is attractive because it provides good test ground for general theories; the quantities are very computable and admit explicit combinatorial descriptions. There are also many interesting examples such as the quintic 3-folds.
+	
+	\section{Symplectic geometry and polytopes}
+	
+	\subsection{moment map and torus fibration}
+	Let  X=2n-dim symplectic manifold, $\T$=n-dim real torus.
+	T acts on X effectively through Hamiltonian action.  Let $\LieT$=Lie(T) be the Lie algebra of $\T$. There is a (moment map) $$\mu\colon M\to \LieT^\ast,$$ which is T-equivariant, such that for each $v\in\mathrm{Lie}(\mathbb{T})$ we have $$\omega(v^\sharp,\cdot)\cong \mathrm{d}<\mu,v>,$$ 
+	
+	Notice $\LieT$ is noncanonically isomorphic to $\R^{n}$.
+	But there is a canonical sublattice $\Lambda=ker (exp)$, and the dual lattice sits inside the dual space.
+	$$\mathrm{Lie}(\mathbb{T})\cong \mathbb{R}^n\cong \Lambda\otimes_{\mathbb{Z}}\mathbb{R}$$
+	
+	We are regarding $\LieT^{*}$ as an affine manifold with an integral structure.
+	
+	Good local picture:
+	T acts on X effectively, so for a generic $x \in X$ the T-orbit of X is a copy of T. Locally near x, the moment map is a fibration:
+	$$\LieT^* \times \T \mapsto \LieT^*$$
+	
+	\begin{rmk}
+		This is in fact a special case of coadjoint actions.
+	\end{rmk}
+	A better description taking into account the integral structure: \\
+	
+	$\T=Lie(T)/\Lambda$, 
+	So setting $V=\LieT^{*}$, locally we get $V \times V^{*}/{\Lambda}^{*} \mapsto V$  
+	with the symplectic structure on X (locally) given by the canonical symplectic form on the cotangent bundle  $T^{*}V$.
+	
+	
+	
+	So the torus fibres are Lagrangian.
+	
+	\subsection{Digression: the link with Hamiltonian mechanics}
+	
+	A Hamiltonian system is a triple $ (X, \omega, f)$ where $\omega$ is the symplectic form and f is a function. Then f induces a flow via its Hamiltonian vector field.\\
+	
+	Given any other observable g (\ie, functions from X to $\R$), the value of g changes under the evolution according to the rule: $$\frac{dg}{dt}=\{f,g\}$$
+	
+	In particular, if f and g Poisson commute then g is a conserved quantity. In classical mechanics conserved quantities come from symmetries of the system and they simplify the problem by reducing the degree of freedom. 
+	In general one can have at most n independent Poisson commuting functions. Then Arnold-Liouville theorem roughly says that if you achieve this maximal number of conserved quantities $\{f_i\}$, you can find some coordinate system which puts the flow into an exceptionally simple form:
+	$$ \omega=\sum_i{df_i \wedge dy_i}$$
+	and the evolution of the system is linear in the y coordinates.\\
+	
+	This coordinate system is called the action-angle variables. This is another way to understand the Lagrangian toric fibration. The Hamiltonian flows naturally give torus group actions, if we are given extra compactness conditions.
+	
+	
+	\subsection{Compactification and polytopes}
+	
+	Local model: on a big open $X^{0} \in X$ we have $\R^n \times (S^1)^n \mapsto \R^n$ via $\mu$. The action-angle coordinates are essentially just polar coordinates on $\C^*$. \\
+	
+	
+	Question: How to compactify our local picture?\\
+	
+	Answer: the information you need is encoded by a polytope.
+	
+	
+	\begin{thm}
+		\rm (Atiyah-Guillemin-Sternberg) The image of the moment map is a convex polytope. In fact, it is the convex hull of the images of the fixed points of the torus action. 
+	\end{thm}
+	
+	This means we get a polytope from the toric manifold.
+	
+	\begin{eg}
+		$X=\C\mathbb{P}^1$, $T=(S^1)^n $ acts on X by:
+		$$ (exp(i\theta_1, \ldots, exp(i\theta_n)).[z_0,\ldots, z_n]=[z_0, exp(i\theta_1)z_1, \ldots]$$
+		the moment map is 
+		$$\mu ([z_0,\ldots, z_n])=-\frac{1}{\sum_i{|z_i|^2}}(|z_1|^2, \ldots)$$
+		so the image of $\mu$ is the convex hull of (0,0), (-1,0), (0,-1).
+	\end{eg}
+	
+	\begin{rmk}
+		The moment map is really only defined up to a constant shift.
+	\end{rmk}
+	
+	
+	\begin{defn} A \it Delzant polytope \rm in $\Lambda\otimes_{\mathbb{Z}}\mathbb{R}$ is a convex polytope such that\\
+		(i) the vertices are in $\Lambda$,\\
+		(ii) the edges are generated by elements of $\Lambda$,\\
+		(iii) generators out of edges form a $\mathbb{Z}$-basis of $\Lambda$. 
+	\end{defn}
+	
+	The toric symplectic manifolds are in bijection with Delzant polytopes.
+	
+	\begin{eg}
+		$(S^1)^n$ acts on $\C^n$ by
+		$$ (exp(i\theta_1, \ldots, exp(i\theta_n)).(z_1,\ldots, z_n)=(exp(i\theta_1)z_1, \ldots)$$
+		The moment map $\mu: \C^n \mapsto \R^n$
+		$$(z_1,\ldots, z_n)\mapsto 1/2(|z_1|^2, \ldots)$$
+		The image is the positive quadrant: $\{(x_1,\ldots, x_n) \in \R^n|x_i \geq 0\}$
+		If all $z_i$ are nonzero then we get our previous local model $V \times V^{*}/{\Lambda}^{*}$ where V=$(\R^n)^{*}$.\\
+		
+		In $\R^2$ the generic fibre is $S^1 \times S^1$ with radii $\sqrt{x_1}, \sqrt{x_2}$.
+		As $x_2 \to 0$,the fibre collapses down to $S^1$, and similarly when $x_1$ tends to 0.
+		
+		More invariantly, over a codimension k face of $(\R_{\geq 0})^n \in \R^n$ modelled on $W \subset V$, collapse $W^{\perp} \subset V^* $ to get the local model $ W \times W^{*}/{\Lambda_W}^{*}$.\\
+		
+		The boundary is stratified by lower dimensional toric varieties.
+	\end{eg}
+	
+	
+	
+	
+	Starting from these local models one can construct a toric variety by glueing these charts. (This is useful if you want to work in coordinates.)
+	
+	
+	
+	
+	
+	\section{Local algebro-geometric construction from the fan}
+	N=lattice, say $\Z^{n}$, and let $N_{\R}=N\otimes \R $.
+	
+	\begin{defn}
+		$\sigma \subset N_{\R}$ is called a rational polyhedral cone
+		if $\sigma=\{a_1 v_1+a_2 v_2+\ldots+ a_r v_r|a_i \geq 0\}$ for some $v_1, \ldots v_r \in N$ 
+	\end{defn}
+	
+	\begin{defn}
+		$\sigma$ is called a strongly convex rational polyhedral cone, if in addition $\sigma \cap -\sigma=0$.  We will refer to these just as cones.
+	\end{defn}
+	
+	
+	\begin{defn}
+		The dual cone: $\sigma^{\vee} \in M_{\R}$ is $\{f \in M_{R}: f(v)\geq 0 for\: all\: v \in \sigma\}$, where $M=Hom(N,\Z)$ and $M_\R=M\otimes \R$.
+	\end{defn}
+	
+	\begin{eg}
+		$N=\Z^2$, $\sigma$=cone with generators (1,0) and (-1,-1), then $M=(\Z^2)^{\vee}$ and $\sigma^\vee$=cone with generators (0,-1) and (1,-1).
+	\end{eg}
+	
+	\begin{eg}
+		$N=\Z^2$, $\sigma$=cone with generators (-1,-1), then $M=(\Z^2)^{\vee}$ and $\sigma^\vee$=cone with generators (1,-1) , (-1,1), and (0,-1).
+	\end{eg}
+	
+	Notice inclusion of cones give rise to reverse inclusions of dual cones.
+	
+	We make the construction: take a cone in N, then set $X_\sigma=Spec \C[\sigma^{\vee}\cap M]$ (\ie,take the semigroup algebra, then take spec).
+	
+	If $\sigma$ has a face (\ie, the intersection of $\sigma$ with a supporting hyperplane), then $\tau^\vee \supset \sigma^\vee$, so $\C[\sigma^{\vee}\cap M] \hookrightarrow \C[\tau^{\vee}\cap M]$ (localisation of rings), 
+	so $X_\tau \hookrightarrow X_\sigma$ an inclusion of princial open affine piece.
+	
+	\begin{defn}
+		A fan $\Sigma \in N$ is a collection of cones $\sigma$, such that:
+		\begin{itemize}
+			\item if $\sigma \in \Sigma$ and $\tau$ is a face of $\sigma$, then $\tau \in \Sigma$.
+			\item if $\sigma, \sigma^{'} \in \Sigma$, then $\sigma \cap \sigma^{'}$ is a face of each.
+		\end{itemize}
+	\end{defn}
+	
+	so we can glue the $X_{\sigma}$ along the intersections! 
+	Then one defines in a natural manner the torus action to obtain an actual toric variety.
+	
+	\begin{eg}
+		$N=\Z, N_{\R}\simeq \R$, then we have the fan defined by: $\tau$=origin, $\sigma_1$=positive real line, $\sigma_2$=negative real line, then the dual of $\sigma_1$ and $\sigma_2$ correspond to the positive and negative real lines in the dual space. We have: $\C[\sigma_1^{\vee}\cap M]=\C[x] $, $\C[\sigma_2^{\vee}\cap M]=\C[x^{-1}] $, and $\C[\tau^{\vee}\cap M]=group \: algebra=\C[x, x^{-1}] $. Geometrically we have two inclusions of $\C^*$ into $\C$ so we get $\mathbb{P}^1$.
+	\end{eg}
+	
+	\begin{ex}
+		Do the same thing for the fan defined by the first quadrant in $\R^2$.
+	\end{ex}
+	
+	\begin{ex}
+		Do the same thing for the fan defined by the three rays in the directions (0, 1), (1,0), (-1,-1).
+	\end{ex}
+	
+	
+	\begin{ex}
+		Do the same thing for the fan defined by the first quadrant in $\R^2$, subdivided along the diagonal.
+		
+	\end{ex}
+	
+	
+	
+	\begin{ex}
+		Find out what a map of fans is and show that it induces a morphism. Interprete these maps geometrically in the examples. 
+		
+		Give a necessary and sufficient condition on  $\Sigma$ for $X_{\Sigma}$ to be smooth.
+		Prove one can always desingularise the toric variety in the toric category.
+		
+	\end{ex}
+	
+	
+\end{document}
